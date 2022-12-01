@@ -61,6 +61,9 @@ type node256 struct {
 type leaf struct {
 	key   Key
 	value interface{}
+
+	// LRU 指针
+	pre, next *leaf
 }
 
 // String returns string representation of the Kind value

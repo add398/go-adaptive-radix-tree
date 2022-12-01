@@ -6,7 +6,15 @@ type tree struct {
 
 	root *artNode
 	size int
+
+	// 指针用于 淘汰算法
+	head *leaf
+
+
+	tail *leaf
+
 }
+
 
 // make sure that tree implements all methods from the Tree interface
 var _ Tree = &tree{}

@@ -49,6 +49,6 @@ func (f *objFactory) newLeaf(key Key, value interface{}) *artNode {
 	copy(clonedKey, key)
 	return &artNode{
 		kind: Leaf,
-		ref:  unsafe.Pointer(&leaf{key: clonedKey, value: value}),
+		ref:  unsafe.Pointer(&leaf{key: clonedKey, value: value, }),
 	}
 }
