@@ -1,5 +1,7 @@
 package art
 
+import "fmt"
+
 type tree struct {
 	// version field is updated by each tree modification
 	version int
@@ -129,7 +131,6 @@ func (t *tree) recursiveInsert(curNode **artNode, key Key, value Value, depth ui
 		// new value, split the leaf into new node4
 		newLeaf := factory.newLeaf(key, value)
 		leaf2 := newLeaf.leaf()
-
 		t.AddLast(leaf2)
 
 		leafsLCP := t.longestCommonPrefix(leaf, leaf2, depth)
@@ -217,6 +218,10 @@ func (t *tree) recursiveDelete(curNode **artNode, key Key, depth uint32) (Value,
 	if current.isLeaf() {
 		leaf := current.leaf()
 		if leaf.match(key) {
+			// 在其是叶子节点的时候删除，别的时候不需要删除
+			fmt.Println("t.Remove(leaf)")
+			t.Remove(leaf)
+
 			replaceRef(curNode, nil)
 			return leaf.value, true
 		}
@@ -242,6 +247,9 @@ func (t *tree) recursiveDelete(curNode **artNode, key Key, depth uint32) (Value,
 	if (*next).isLeaf() {
 		leaf := (*next).leaf()
 		if leaf.match(key) {
+			// 删除 leaf
+			t.Remove(leaf)
+
 			current.deleteChild(key.charAt(int(depth)), key.valid(int(depth)))
 			return leaf.value, true
 		}

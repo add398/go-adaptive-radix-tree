@@ -57,5 +57,6 @@ func (t *tree) ForEachByLeaf() {
 		fmt.Println(string(key))
 		current = current.next
 	}
+	fmt.Println("_____________________")
 }
 
