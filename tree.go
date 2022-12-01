@@ -106,7 +106,12 @@ func (t *tree) Size() int {
 func (t *tree) recursiveInsert(curNode **artNode, key Key, value Value, depth uint32) (Value, bool) {
 	current := *curNode
 	if current == nil {
-		replaceRef(curNode, factory.newLeaf(key, value))
+		//当前树为空，插入
+		factoryleaf := factory.newLeaf(key, value)
+		leaf := factoryleaf.leaf()
+		t.AddLast(leaf)
+
+		replaceRef(curNode, factoryleaf)
 		return nil, false
 	}
 
