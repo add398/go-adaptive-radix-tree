@@ -110,6 +110,9 @@ type Tree interface {
 
 	// Returns size of the tree
 	Size() int
+
+	// read by leaf
+	ForEachByLeaf()
 }
 
 // New creates a new adaptive radix tree

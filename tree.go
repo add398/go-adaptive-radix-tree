@@ -122,11 +122,16 @@ func (t *tree) recursiveInsert(curNode **artNode, key Key, value Value, depth ui
 		if leaf.match(key) {
 			oldValue := leaf.value
 			leaf.value = value
+
+			t.Update(leaf)
 			return oldValue, true
 		}
 		// new value, split the leaf into new node4
 		newLeaf := factory.newLeaf(key, value)
 		leaf2 := newLeaf.leaf()
+
+		t.AddLast(leaf2)
+
 		leafsLCP := t.longestCommonPrefix(leaf, leaf2, depth)
 
 		newNode := factory.newNode4()
@@ -172,9 +177,14 @@ func (t *tree) recursiveInsert(curNode **artNode, key Key, value Value, depth ui
 				node.prefix[i] = leaf.key[depth+prefixMismatchIdx+i+1]
 			}
 		}
+		// insert
+		factoryleaf := factory.newLeaf(key, value)
+		leaf := factoryleaf.leaf()
+		//fmt.Println(leaf.key,"插入——？")
+		t.AddLast(leaf)
 
 		// Insert the new leaf
-		newNode.addChild(key.charAt(int(depth+prefixMismatchIdx)), key.valid(int(depth+prefixMismatchIdx)), factory.newLeaf(key, value))
+		newNode.addChild(key.charAt(int(depth+prefixMismatchIdx)), key.valid(int(depth+prefixMismatchIdx)), factoryleaf)
 		replaceRef(curNode, newNode)
 
 		return nil, false
@@ -189,7 +199,11 @@ NEXT_NODE:
 	}
 
 	// No Child, artNode goes with us
-	current.addChild(key.charAt(int(depth)), key.valid(int(depth)), factory.newLeaf(key, value))
+	factoryleaf := factory.newLeaf(key, value)
+	leaf := factoryleaf.leaf()
+	t.AddLast(leaf)
+
+	current.addChild(key.charAt(int(depth)), key.valid(int(depth)), factoryleaf)
 
 	return nil, false
 }

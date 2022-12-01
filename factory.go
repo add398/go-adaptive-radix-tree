@@ -18,7 +18,14 @@ var _ nodeFactory = &objFactory{}
 var factory = newObjFactory()
 
 func newTree() *tree {
-	return &tree{}
+	// 指针需要新建
+	t := &tree{
+		head: &leaf{pre: &leaf{}, next :&leaf{}},
+		tail: &leaf{pre: &leaf{}, next :&leaf{}},
+	}
+	t.head.next = t.tail
+	t.tail.pre = t.head
+	return  t
 }
 
 type objFactory struct{}
