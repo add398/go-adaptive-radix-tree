@@ -39,6 +39,7 @@ func Benchmark_Tree_search(b *testing.B) {
 	size := 100000
 
 	benchmark_read_from_trie(b, size)
+	
 
 
 }
